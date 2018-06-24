@@ -1,18 +1,19 @@
 {
   "name": "user_bot",
-  "version": "1.0.0",
+  "version": "1.5.6",
   "description": "A UserBot That helps to put Image/Message",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-       "start": "electromon ."
-     },
-  "author": "Maix",
+    "start": "electron ."
+  },
+  "author": "Maix, Aelyos",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^11.3.2",
+    "electron": "^2.0.3",
     "fs": "0.0.1-security",
+    "html": "^1.0.0",
     "nodeyourmeme": "^2.0.0",
-    "steamapi": "^2.0.2",
-    "electron": "^2.0.3"
+    "steamapi": "^2.0.2"
   }
 }

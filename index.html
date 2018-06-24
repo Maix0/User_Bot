@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html style="background: #7289DA">
+  <head>
+    <style>
+      body {
+        overflow-x: hidden;
+        overflow-y: hidden;
+      }
+    </style>
+    <link rel="stylesheet" href="main.css">
+    <link rel="icon" type="ressources/png" href="favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="ressources/png" href="favicon-16x16.png" sizes="16x16" />
+
+    <title>UserBot Interface</title>
+  </head>
+
+  <body>
+    <table id="Main">
+      <tr>
+        <td>
+          <div id="ActivityChanger">
+            <select id="ActivityTypeList">
+              <option value="none">None</option>
+              <option value="PLAYING">Playing</option>
+              <option value="WATCHING">Watching</option>
+              <option value="LISTENING">Listening To</option>
+              <option value="STREAMING">Streaming</option>
+            </select>
+            <input type="text" name="TEST" size="40" id="ActivityGame" />
+            <button name="Update" type="submit" value="update-true" id="UpdateButton" onclick="UpdateActivity()">
+            Update
+            </button>
+            <script>
+
+              const Discord = require("discord.js");
+              const token = require("./token.json");
+              const UserBot = new Discord.Client({DisableEveryone: true});
+
+
+              UserBot.on("ready", async () => {
+                console.log(`Activity Changer is online`);
+              });
+              UserBot.login(token.token);
+
+              function UpdateActivity()
+              {
+                  var selectedValue = document.getElementById("ActivityTypeList").value;
+                  var selectedGame = document.getElementById("ActivityGame").value;
+                  if((selectedValue !== 'none') && (selectedGame !== null)){
+                    UserBot.user.setActivity(selectedGame, {type: selectedValue,})
+                    console.log('Updated Status' + ` to ${selectedValue} ${selectedGame} `)
+                  }
+              }
+
+            </script>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div id="ImageSubmit">
+            <input type="text" name="ImageFile" size="10" id="ImageFile" placeholder="Image Filename" />
+            <input type="text" name="ImageAlias" size="10" id="ImageAlias" placeholder="Image Alias" />
+            <button name="Add Image" type="submit" value="AddImage-true" id="AddImage" onclick="AddImage()">
+              Add Image
+
+
+            </button>
+
+            <script>
+
+              const ImgFile = require("./images.json");
+              const fs = require("fs")
+
+              function AddImage(){
+                var ImageFile = document.getElementById("ImageFile").value;
+                var ImageName = document.getElementById("ImageAlias").value;
+                if((ImageName) && (ImageFile)){
+                  if(!ImgFile[ImageName]){
+                    ImgFile[ImageName] = {
+                      ImageName: ImageFile
+                    };
+                  }
+                    fs.writeFile("./images.json", JSON.stringify(ImgFile), (err) => {
+                      if (err) console.log(err)
+                    });
+                  }
+                }
+            </script>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </body>
+
+</html>

@@ -1,0 +1,25 @@
+body {
+    background-color: #7289DA;
+    -webkit-app-region: drag;
+}
+p {
+    color: red;
+}
+button {
+  -webkit-app-region: no-drag;
+}
+select {
+  -webkit-app-region: no-drag;
+}
+input {
+  -webkit-app-region: no-drag;
+}
+
+body
+{
+    width: 100%;
+    margin: auto;
+    margin-bottom: auto;
+    width: 530px;
+    height: 240px;
+    text-align: center;

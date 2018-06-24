@@ -7,15 +7,17 @@ const fs = require("fs")
 const SteamAPI = require('steamapi');
 const steam = new SteamAPI('steam token');
 const nym = require('nodeyourmeme');
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow} = require('electron');
+const html = require('html');
 
 
 let win
 function createWindow () {
-  win = new BrowserWindow({width: 800, height: 600})
+  win = new BrowserWindow({width: 530, height: 240, frame:true})
   win.loadFile('./index.html')
+  //win.setMenu(null)
   win.on('closed', () => {
-    win = null
+    process.exit()
   })
 }
 
@@ -30,6 +32,30 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+function UpdateActivity(){
+  var selectedValue = document.getElementById("ActivityTypeList").value;
+  var selectedGame = document.getElementById("ActivityGame").value;
+  //if((selectedValue !== 'none') && (selectedGame !== null)){
+  console.log('Updated Status' + ` to ${selectedValue} ${selectedGame} `)
+  UserBot.user.setActivity(selectedGame, {type: selectedValue,})
+  //}
+}
+
+function AddImage(){
+  var ImageFile = document.getElementById("ImageFile").value || args[1];
+  var ImageName = document.getElementById("ImageAlias").value || args[0];
+  if((ImageName) && (ImageFile)){
+    if(!ImgFile[ImageName]){
+      ImgFile[ImageName] = {
+        ImageName: ImageFile
+      };
+    }
+    fs.writeFile("./images.json", JSON.stringify(ImgFile), (err) => {
+      if (err) console.log(err)
+    });
+  }
+}
 
 
 
@@ -87,16 +113,7 @@ UserBot.on("message", async message => {
     message.delete().catch();
     let ImageName = args[0];
     let ImageFile = args[1];
-
-    if(!ImgFile[ImageName]){
-      ImgFile[ImageName] = {
-        ImageName: ImageFile
-      };
-    }
-    fs.writeFile("./images.json", JSON.stringify(ImgFile), (err) => {
-      if (err) console.log(err)
-    });
-  }
+    AddImage()
   if(cmd === `${commands.TestImageName}`){
     message.delete().catch();
     let nameFile = args[0];
